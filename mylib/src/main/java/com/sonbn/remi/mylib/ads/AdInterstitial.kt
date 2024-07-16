@@ -65,9 +65,9 @@ object AdInterstitial {
 
             override fun onAdShowedFullScreenContent() {
                 super.onAdShowedFullScreenContent()
-                onAdInterstitialListener?.onCompleted()
                 isShowing = false
                 mInterstitialAd = null
+                loadInterstitial(activity, mId)
             }
 
             override fun onAdFailedToShowFullScreenContent(p0: AdError) {
@@ -75,6 +75,7 @@ object AdInterstitial {
                 onAdInterstitialListener?.onCompleted()
                 isShowing = false
                 mInterstitialAd = null
+                loadInterstitial(activity, mId)
             }
         }
         mInterstitialAd?.show(activity)
