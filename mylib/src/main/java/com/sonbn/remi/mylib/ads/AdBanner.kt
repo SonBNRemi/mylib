@@ -14,6 +14,7 @@ import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.LoadAdError
 import com.sonbn.remi.mylib.databinding.ShimmerBannerBinding
+import com.sonbn.remi.mylib.ext.gone
 
 object AdBanner {
     private const val DEBUG_BANNER_ID = "ca-app-pub-3940256099942544/9214589741"
@@ -36,6 +37,7 @@ object AdBanner {
                 override fun onAdLoaded() {
                     super.onAdLoaded()
                     viewGroup.apply {
+                        println("ngocson onAdLoaded")
                         removeAllViews()
                         addView(adView)
                     }
@@ -43,7 +45,7 @@ object AdBanner {
 
                 override fun onAdFailedToLoad(p0: LoadAdError) {
                     super.onAdFailedToLoad(p0)
-
+                    println("ngocson onAdFailedToLoad: ${p0.message}")
                 }
             }
         }
@@ -87,12 +89,15 @@ object AdBanner {
         TOP("top"),
         BOTTOM("bottom")
     }
-    private fun getAdSize(activity: Activity): AdSize{
+
+    private fun getAdSize(mActivity: Activity): AdSize {
+        val display = mActivity.windowManager.defaultDisplay
         val outMetrics = DisplayMetrics()
+        display.getMetrics(outMetrics)
+        val widthPixels = outMetrics.widthPixels.toFloat()
         val density = outMetrics.density
-        val adWidthPixels = outMetrics.widthPixels.toFloat()
-        val adWidth = (adWidthPixels / density).toInt()
-        return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, adWidth)
+        val adWidth = (widthPixels / density).toInt()
+        return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(mActivity, adWidth)
     }
 
 }
