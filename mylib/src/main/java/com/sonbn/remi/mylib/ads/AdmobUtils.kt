@@ -1,8 +1,22 @@
 package com.sonbn.remi.mylib.ads
 
+import android.content.Context
+import com.google.android.gms.ads.MobileAds
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
 object AdmobUtils {
     var isDebug = true
     var isShowAds = true
+
+    fun initAdmob(context: Context, isDebug: Boolean = false, isShowAds: Boolean = true) {
+        this.isDebug = isDebug
+        this.isShowAds = isShowAds
+        CoroutineScope(Dispatchers.IO).launch {
+            MobileAds.initialize(context) {}
+        }
+    }
 
 //    App Open	ca-app-pub-3940256099942544/9257395921
 //    Adaptive Banner	ca-app-pub-3940256099942544/9214589741
