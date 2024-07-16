@@ -44,6 +44,10 @@ publishing {
                 from(components["release"])
 
             }
+
+            groupId = "com.sonbn.remi.mylib"
+            artifactId = "mylib"
+            version = "1.0.0"
         }
     }
 }
