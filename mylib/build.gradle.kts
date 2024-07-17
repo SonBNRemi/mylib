@@ -75,4 +75,5 @@ dependencies {
 
     api("com.google.android.gms:play-services-ads:23.0.0")
     api("com.facebook.shimmer:shimmer:0.5.0@aar")
+    api("com.google.android.ump:user-messaging-platform:2.2.0")
 }
