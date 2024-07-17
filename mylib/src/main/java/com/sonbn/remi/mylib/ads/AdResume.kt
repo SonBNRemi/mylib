@@ -79,6 +79,15 @@ object AdResume {
         return activityReference?.get()
     }
 
+    private var set = mutableSetOf<Class<*>?>()
+    fun insertActivityDisableAd(activity: Class<*>) {
+        set.add(activity)
+    }
+
+    fun removeActivityDisableAd(activity: Class<*>) {
+        set.remove(activity)
+    }
+
     private fun isAdAvailable(): Boolean {
         return appOpenAd != null && wasLoadTimeLessThanNHoursAgo(4)
     }
@@ -122,6 +131,10 @@ object AdResume {
             return
         }
 
+        if (!shouldShowAd()){
+            return
+        }
+
         appOpenAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
 
             override fun onAdDismissedFullScreenContent() {
@@ -146,4 +159,10 @@ object AdResume {
         appOpenAd?.show(activity)
     }
 
+    private fun shouldShowAd(): Boolean {
+        if (AdInterstitial.isShowing) return false
+        if (getActivity() == null) return false
+        if (set.indexOf(getActivity()!!::class.java) != -1) return false
+        return true
+    }
 }
