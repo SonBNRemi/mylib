@@ -13,10 +13,12 @@ import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.nativead.MediaView
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdView
 import com.sonbn.remi.mylib.R
+import com.sonbn.remi.mylib.ext.gone
 
 object AdNative {
     private const val DEBUG_NATIVE_ID = "ca-app-pub-3940256099942544/2247696110"
@@ -36,12 +38,10 @@ object AdNative {
 
     fun showNative(
         nativeAd: NativeAd,
-        shimmer: ShimmerFrameLayout,
         nativeAdView: NativeAdView,
         viewGroup: ViewGroup
     ) {
         val mNativeAdView = setNativeAdView(nativeAd, nativeAdView)
-        shimmer.startShimmer()
         viewGroup.removeAllViews()
         viewGroup.addView(mNativeAdView)
     }
@@ -57,12 +57,17 @@ object AdNative {
         if (!AdmobUtils.isShowAds) {
             return
         }
+        shimmer.startShimmer()
+        viewGroup.addView(shimmer)
         val adLoader = AdLoader.Builder(activity, mId)
             .forNativeAd { nativeAd ->
-                showNative(nativeAd, shimmer, nativeAdView, viewGroup)
+                showNative(nativeAd, nativeAdView, viewGroup)
             }
             .withAdListener(object : AdListener() {
-
+                override fun onAdFailedToLoad(p0: LoadAdError) {
+                    super.onAdFailedToLoad(p0)
+                    viewGroup.gone()
+                }
             })
             .build()
         adLoader.loadAd(AdRequest.Builder().build())
