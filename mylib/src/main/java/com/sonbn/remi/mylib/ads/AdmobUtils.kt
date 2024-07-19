@@ -5,6 +5,8 @@ import com.google.android.gms.ads.MobileAds
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.net.InetAddress
 
 object AdmobUtils {
     var isDebug = true
@@ -15,6 +17,17 @@ object AdmobUtils {
         this.isShowAds = isShowAds
         CoroutineScope(Dispatchers.IO).launch {
             MobileAds.initialize(context) {}
+        }
+    }
+
+    suspend fun isInternetAvailable(): Boolean {
+        return withContext(Dispatchers.IO) {
+            try {
+                val address: InetAddress = InetAddress.getByName("www.google.com")
+                !address.equals("")
+            } catch (e: Exception) {
+                false
+            }
         }
     }
 

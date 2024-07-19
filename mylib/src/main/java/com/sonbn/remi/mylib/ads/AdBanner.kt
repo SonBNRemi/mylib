@@ -45,6 +45,7 @@ object AdBanner {
 
                 override fun onAdFailedToLoad(p0: LoadAdError) {
                     super.onAdFailedToLoad(p0)
+                    viewGroup.gone()
                     println("ngocson onAdFailedToLoad: ${p0.message}")
                 }
             }
