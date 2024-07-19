@@ -37,7 +37,6 @@ object AdBanner {
                 override fun onAdLoaded() {
                     super.onAdLoaded()
                     viewGroup.apply {
-                        println("ngocson onAdLoaded")
                         removeAllViews()
                         addView(adView)
                     }
@@ -46,7 +45,6 @@ object AdBanner {
                 override fun onAdFailedToLoad(p0: LoadAdError) {
                     super.onAdFailedToLoad(p0)
                     viewGroup.gone()
-                    println("ngocson onAdFailedToLoad: ${p0.message}")
                 }
             }
         }

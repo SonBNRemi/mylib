@@ -31,7 +31,7 @@ object AdOpen {
             return
         }
         var isTimeOutCalled = false
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.Main).launch {
             delay(timeOut)
             isTimeOutCalled = true
             onAdOpenListener.onCompleted()
