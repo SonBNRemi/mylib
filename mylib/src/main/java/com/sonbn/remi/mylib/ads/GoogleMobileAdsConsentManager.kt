@@ -42,7 +42,13 @@ class GoogleMobileAdsConsentManager private constructor(context: Context) {
         onConsentGatheringCompleteListener: OnConsentGatheringCompleteListener,
     ) {
         // For testing purposes, you can force a DebugGeography of EEA or NOT_EEA.
-        val params = ConsentRequestParameters.Builder().build()
+        val debugSettings =
+            ConsentDebugSettings.Builder(activity)
+                // .setDebugGeography(ConsentDebugSettings.DebugGeography.DEBUG_GEOGRAPHY_EEA)
+//                .addTestDeviceHashedId(App.TEST_DEVICE_HASHED_ID)
+                .build()
+
+        val params = ConsentRequestParameters.Builder().setConsentDebugSettings(debugSettings).build()
 
         // Requesting an update to consent information should be called on every app launch.
         consentInformation.requestConsentInfoUpdate(
