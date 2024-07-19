@@ -11,6 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 object AdOpen {
     private const val DEBUG_OPEN_ID = "ca-app-pub-3940256099942544/9257395921"
@@ -31,10 +32,12 @@ object AdOpen {
             return
         }
         var isTimeOutCalled = false
-        CoroutineScope(Dispatchers.Main).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             delay(timeOut)
+            withContext(Dispatchers.Main) {
+                onAdOpenListener.onCompleted()
+            }
             isTimeOutCalled = true
-            onAdOpenListener.onCompleted()
         }
         val request = AdRequest.Builder().build()
         AppOpenAd.load(activity, mId, request, object :
