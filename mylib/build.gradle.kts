@@ -1,5 +1,5 @@
 plugins {
-    id ("com.android.library")
+    id("com.android.library")
     id("maven-publish")
     alias(libs.plugins.jetbrains.kotlin.android)
 }
@@ -76,4 +76,8 @@ dependencies {
     api("com.google.android.gms:play-services-ads:23.0.0")
     api("com.facebook.shimmer:shimmer:0.5.0@aar")
     api("com.google.android.ump:user-messaging-platform:2.2.0")
+    api("androidx.preference:preference-ktx:1.1.1")
+
+    val billing_version = "7.0.0"
+    api("com.android.billingclient:billing-ktx:$billing_version")
 }
