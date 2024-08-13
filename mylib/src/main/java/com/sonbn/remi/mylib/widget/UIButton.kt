@@ -7,7 +7,7 @@ import androidx.appcompat.widget.AppCompatButton
 import com.sonbn.remi.mylib.R
 
 class UIButton @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null
+    context: Context, attrs: AttributeSet? = null,
 ) : AppCompatButton(context, attrs) {
     private var cornersHelper: CornersHelper
 
@@ -20,8 +20,9 @@ class UIButton @JvmOverloads constructor(
         val bottomRight =
             typedArray.getDimension(R.styleable.UIButton_android_bottomRightRadius, 0f)
         typedArray.recycle()
-        cornersHelper =
-            CornersHelper(context, CornersModel(radius, topLeft, topRight, bottomLeft, bottomRight))
+
+        val cornersModel = CornersModel(radius, topLeft, topRight, bottomLeft, bottomRight)
+        cornersHelper = CornersHelper(cornersModel)
     }
 
     override fun draw(canvas: Canvas) {

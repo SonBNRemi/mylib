@@ -20,8 +20,8 @@ class UIConstraintLayout @JvmOverloads constructor(
         val bottomRight =
             typedArray.getDimension(R.styleable.UIConstraintLayout_android_bottomRightRadius, 0f)
         typedArray.recycle()
-        cornersHelper =
-            CornersHelper(context, CornersModel(radius, topLeft, topRight, bottomLeft, bottomRight))
+        val cornersModel = CornersModel(radius, topLeft, topRight, bottomLeft, bottomRight)
+        cornersHelper = CornersHelper(cornersModel)
     }
 
     override fun draw(canvas: Canvas) {

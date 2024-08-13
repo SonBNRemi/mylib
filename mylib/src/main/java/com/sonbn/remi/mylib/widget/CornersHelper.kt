@@ -1,13 +1,12 @@
 package com.sonbn.remi.mylib.widget
 
-import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Path
 import com.sonbn.remi.mylib.BuildConfig
 
-class CornersHelper(val context: Context, private val cornersModel: CornersModel) {
+class CornersHelper(cornersModel: CornersModel) {
     private val path = Path()
-    private var mCornersModel: CornersModel? = null
+    private var mCornersModel: CornersModel
 
     init {
         this.mCornersModel = cornersModel
@@ -22,11 +21,11 @@ class CornersHelper(val context: Context, private val cornersModel: CornersModel
             val width = pair.first
             val height = pair.second
 
-            val radius = cornersModel.radius
-            val topLeft = cornersModel.topLeft
-            val topRight = cornersModel.topRight
-            val bottomLeft = cornersModel.bottomLeft
-            val bottomRight = cornersModel.bottomRight
+            val radius = mCornersModel.radius
+            val topLeft = mCornersModel.topLeft
+            val topRight = mCornersModel.topRight
+            val bottomLeft = mCornersModel.bottomLeft
+            val bottomRight = mCornersModel.bottomRight
 
             path.reset()
             if (radius != 0f) {
