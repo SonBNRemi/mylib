@@ -15,7 +15,7 @@ import kotlinx.coroutines.withContext
 
 object AdOpen {
     private const val DEBUG_OPEN_ID = "ca-app-pub-3940256099942544/9257395921"
-    private var timeOut = 5 * 1000L
+    private var timeOut = 60 * 1000L
 
     interface OnAdOpenListener {
         fun onCompleted()
@@ -32,7 +32,7 @@ object AdOpen {
             return
         }
         var isTimeOutCalled = false
-        CoroutineScope(Dispatchers.IO).launch {
+        val job = CoroutineScope(Dispatchers.IO).launch {
             delay(timeOut)
             withContext(Dispatchers.Main) {
                 onAdOpenListener.onCompleted()
@@ -44,6 +44,7 @@ object AdOpen {
             AppOpenAd.AppOpenAdLoadCallback() {
             override fun onAdLoaded(p0: AppOpenAd) {
                 super.onAdLoaded(p0)
+                job.cancel()
                 if (!isTimeOutCalled) {
                     p0.apply {
                         fullScreenContentCallback = object : FullScreenContentCallback() {
@@ -64,6 +65,7 @@ object AdOpen {
 
             override fun onAdFailedToLoad(p0: LoadAdError) {
                 super.onAdFailedToLoad(p0)
+                job.cancel()
                 onAdOpenListener.onCompleted()
             }
         })
